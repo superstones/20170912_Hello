@@ -10,5 +10,8 @@
             <result name="success">/welcome.jsp</result>
             <result name="error">/Login.jsp</result>
         </action>
+        <action name="code" class="Action.CheckCode" method="createCode">
+            <result name="success"/>
+        </action>
     </package>
 </struts>

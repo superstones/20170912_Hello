@@ -13,7 +13,7 @@
 <body>
 <font color="red"></font>${requestScope.error}
 <form action="login" method="post">
-    <table cellspacing="20">
+    <table cellspacing="20" align="center">
         <tr>
 
             <td>用户名：</td>
@@ -28,8 +28,8 @@
         <tr>
 
             <td>验证码：</td>
-            <td><input type="text" name="CheckCode">
-                <img src=/CheckCode"></td>
+            <td><input type="text" name="CheckCode">&nbsp;
+                <img src="code.action"></td>
         </tr>
         <tr align="center">
             <td colspan="3">
