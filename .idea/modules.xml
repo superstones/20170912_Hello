@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/20170912_Hello.iml" filepath="$PROJECT_DIR$/20170912_Hello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../20170912_Hello/20170912_Login-struct2.iml" filepath="$PROJECT_DIR$/../20170912_Hello/20170912_Login-struct2.iml" />
     </modules>
   </component>
 </project>

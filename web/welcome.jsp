@@ -12,7 +12,7 @@
   </head>
   <body>
 
-  Hello world !
+  欢迎${sessionScope.user}登陆
 
   </body>
 </html>

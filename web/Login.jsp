@@ -11,22 +11,33 @@
     <title>Title</title>
 </head>
 <body>
-<form action="login" method="get">
-    <table>
-  <tr>
-     <td>用户名： <input type="text" name="username"></td>
+<font color="red"></font>${requestScope.error}
+<form action="login" method="post">
+    <table cellspacing="20">
+        <tr>
+
+            <td>用户名：</td>
+            <td><input type="text" name="username"></td>
         </tr>
         <tr>
-            <td>密码： <input type="password" name="password"></td>
+
+            <td>密 码：</td>
+            <td><input type="password" name="password"></td>
         </tr>
-            <tr align="center">
-                <td colspan="2">
-                    <input type="submit"value="登陆">
-                    <input type="reset" value="重置">
-                </td>
 
-            </tr>
+        <tr>
 
+            <td>验证码：</td>
+            <td><input type="text" name="CheckCode">
+                <img src=/CheckCode"></td>
+        </tr>
+        <tr align="center">
+            <td colspan="3">
+                <button type="submit">登录</button>
+                <button type="reset">重置</button>
+
+            </td>
+        </tr>
     </table>
 </form>
 

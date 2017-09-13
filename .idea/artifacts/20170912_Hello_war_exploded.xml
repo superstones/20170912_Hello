@@ -2,10 +2,10 @@
   <artifact type="exploded-war" name="20170912_Hello:war exploded">
     <output-path>$PROJECT_DIR$/../20170912_Hello/out/artifacts/20170912_Hello_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="20170912_Hello/web/Web" />
+      <element id="javaee-facet-resources" facet="20170912_Login-struct2/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="20170912_Hello" />
+          <element id="module-output" name="20170912_Login-struct2" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Struts 2" />
