@@ -13,6 +13,15 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginAction extends ActionSupport {
     private String username;
     private String password;
+    private String code;
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
 
     public String getUsername() {
         return username;
@@ -34,14 +43,17 @@ public class LoginAction extends ActionSupport {
         //获取登陆页面提交的数据(struct的参数拦截器已经完成)
         //判断登陆数据是否合法
 
-        if (username.equals("石磊") && password.equals("123")) {
+         String Code2= (String) ActionContext.getContext().getSession().get("code");
+
+
+        if (username.equals("石磊") && password.equals("123")&&code.equals("code2")) {
             //把用户名放入session
             //书71页 struct2中访问session的方法
             ActionContext.getContext().getSession().put("user", username);
             return SUCCESS;
         } else {
             //错误信息放到request域的方法（struct2访问request的方法）
-            ActionContext.getContext().put("error", "用户名或密码错误");
+            ActionContext.getContext().put("error", "用户名或密码或验证码错误");
             return ERROR;
         }
     }
