@@ -11,7 +11,10 @@
             <result name="error">/Login.jsp</result>
         </action>
         <action name="code" class="Action.CheckCode" method="createCode">
-            <result name="success"/>
+            <result name="success" type="stream">
+                <param name="contentType">image/jpeg</param>
+                <param name="inputName">inputStream</param>
+            </result>
         </action>
     </package>
 </struts>

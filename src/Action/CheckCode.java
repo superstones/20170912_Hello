@@ -2,51 +2,148 @@ package Action;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.StrutsStatics;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
 /**
- * Created by Administrator on 2017/9/13.
+ * Created by Administrator on 2017/9/13.生成随机验证码图片的action，将生成的随机数放到session里，然后页面提交到验证随机数的action:
  */
-public class CheckCode extends ActionSupport {
+public class CheckCode extends ActionSupport
+{
+    private ByteArrayInputStream inputStream;
 
+    private static int WIDTH = 60;
 
-    public String createCode(){
-        BufferedImage bi = new BufferedImage(68, 22, BufferedImage.TYPE_INT_RGB);//创建图像缓冲区
-        Graphics g = bi.getGraphics(); //通过缓冲区创建一个画布
-        Color c = new Color(200, 150, 255); //创建颜色
+    private static int HEIGHT = 20;
 
+    public ByteArrayInputStream getInputStream()
+    {
+        return inputStream;
+    }
 
-        g.setColor(c);//为画布创建背景颜色
-        g.fillRect(0, 0, 68, 22); //fillRect:填充指定的矩形
+    public void setInputStream(ByteArrayInputStream inputStream)
+    {
+        this.inputStream = inputStream;
+    }
 
-        char[] ch = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();//转化为字符型的数组
-        Random r = new Random();
-        int len = ch.length;
-        int index; //index用于存放随机数字
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < 4; i++) {
-            index = r.nextInt(len);//产生随机数字
-            g.setColor(new Color(r.nextInt(88), r.nextInt(188), r.nextInt(255)));  //设置颜色
-            g.drawString(ch[index] + "", (i * 15) + 3, 18);//画数字以及数字的位置
-            sb.append(ch[index]);
+    private static String createRandom()
+    {
+        String str = "0123456789qwertyuiopasdfghjklzxcvbnm";
+
+        char[] rands = new char[4];
+
+        Random random = new Random();
+
+        for (int i = 0; i < 4; i++)
+        {
+            rands[i] = str.charAt(random.nextInt(36));
         }
 
-        ActionContext.getContext().getSession().put("piccode", sb.toString()); //将数字保留在session中，便于后续的使用
-        System.out.println(sb.toString());
-        HttpServletResponse response = (HttpServletResponse) ActionContext.getContext().get(StrutsStatics.HTTP_RESPONSE);
-        try {
-            ImageIO.write(bi, "JPG", response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
+        return new String(rands);
+    }
+
+    private void drawBackground(Graphics g)
+    {
+        // 画背景
+        g.setColor(new Color(0xDCDCDC));
+
+        g.fillRect(0, 0, WIDTH, HEIGHT);
+
+        // 随机产生 120 个干扰点
+
+        for (int i = 0; i < 120; i++)
+        {
+            int x = (int) (Math.random() * WIDTH);
+
+            int y = (int) (Math.random() * HEIGHT);
+
+            int red = (int) (Math.random() * 255);
+
+            int green = (int) (Math.random() * 255);
+
+            int blue = (int) (Math.random() * 255);
+
+            g.setColor(new Color(red, green, blue));
+
+            g.drawOval(x, y, 1, 0);
         }
+    }
+
+    private void drawRands(Graphics g, String rands)
+    {
+        g.setColor(Color.BLACK);
+
+        g.setFont(new Font(null, Font.ITALIC | Font.BOLD, 18));
+
+        // 在不同的高度上输出验证码的每个字符
+
+        g.drawString("" + rands.charAt(0), 1, 17);
+
+        g.drawString("" + rands.charAt(1), 16, 15);
+
+        g.drawString("" + rands.charAt(2), 31, 18);
+
+        g.drawString("" + rands.charAt(3), 46, 16);
+
+        System.out.println(rands);
+
+    }
+
+
+    public String createCode() throws Exception
+    {
+        HttpServletResponse response = ServletActionContext.getResponse();
+
+        // 设置浏览器不要缓存此图片
+        response.setHeader("Pragma", "no-cache");
+
+        response.setHeader("Cache-Control", "no-cache");
+
+        response.setDateHeader("Expires", 0);
+
+        String rands = createRandom();
+
+        BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
+                BufferedImage.TYPE_INT_RGB);
+
+        Graphics g = image.getGraphics();
+
+        // 产生图像
+        drawBackground(g);
+
+        drawRands(g, rands);
+
+        // 结束图像 的绘制 过程， 完成图像
+        g.dispose();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        ImageIO.write(image, "jpeg", outputStream);
+
+        ByteArrayInputStream input = new ByteArrayInputStream(outputStream
+                .toByteArray());
+
+        this.setInputStream(input);
+
+        HttpSession session = ServletActionContext.getRequest().getSession();
+
+        session.setAttribute("checkCode", rands);
+
+        input.close();
+
+        outputStream.close();
+
         return SUCCESS;
     }
 }
