@@ -11,7 +11,6 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginAction extends ActionSupport {
     private String username;
     private String password;
-
     private String code;
 
     public String getCode() {
@@ -55,9 +54,7 @@ public class LoginAction extends ActionSupport {
         //判断登陆数据是否合法
 
         String Code2 = (String) ActionContext.getContext().getSession().get("checkCode");
-        System.out.println("LoginAction.execute code2 is " + Code2);
 
-            System.out.println("code is "+code);
 
         if (username.equals("石磊") && password.equals("123") && code.equals(Code2)) {
             //把用户名放入session
