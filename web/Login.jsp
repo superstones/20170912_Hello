@@ -6,12 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<font  color="red" ></font>${requestScope.error}
+<font color="red"></font>${requestScope.error}
+
+<font color="red"> <s:fielderror></s:fielderror></font>
 <form action="login.action" method="post">
     <table cellspacing="20" align="center">
         <tr>
@@ -29,7 +32,7 @@
 
             <td>验证码：</td>
             <td><input type="text" name="code">&nbsp;
-                <img src="code.action" onclick ="this.src='code.action'"></td>
+                <img src="code.action" onclick="this.src='code.action'"></td>
         </tr>
         <tr align="center">
             <td colspan="3">

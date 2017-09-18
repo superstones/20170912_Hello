@@ -5,10 +5,11 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-    <package name="LoginPackage" extends="struts-default">
+    <package name="LoginPackage" extends="struts-default" namespace="/">
         <action name="login" class="Action.LoginAction">
             <result name="success">/welcome.jsp</result>
             <result name="error">/Login.jsp</result>
+            <result name="input">/Login.jsp</result>
         </action>
         <action name="code" class="Action.CheckCode" method="createCode">
             <result name="success" type="stream">

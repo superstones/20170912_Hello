@@ -3,58 +3,48 @@ package Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.StrutsStatics;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Random;
 
 /**
  * Created by Administrator on 2017/9/13.生成随机验证码图片的action，将生成的随机数放到session里，然后页面提交到验证随机数的action:
  */
-public class CheckCode extends ActionSupport
-{
+public class CheckCode extends ActionSupport {
     private ByteArrayInputStream inputStream;
 
     private static int WIDTH = 60;
 
     private static int HEIGHT = 20;
 
-    public ByteArrayInputStream getInputStream()
-    {
+    public ByteArrayInputStream getInputStream() {
         return inputStream;
     }
 
-    public void setInputStream(ByteArrayInputStream inputStream)
-    {
+    public void setInputStream(ByteArrayInputStream inputStream) {
         this.inputStream = inputStream;
     }
 
-    private static String createRandom()
-    {
+    private static String createRandom() {
         String str = "0123456789qwertyuiopasdfghjklzxcvbnm";
 
         char[] rands = new char[4];
 
         Random random = new Random();
 
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             rands[i] = str.charAt(random.nextInt(36));
         }
 
         return new String(rands);
     }
 
-    private void drawBackground(Graphics g)
-    {
+    private void drawBackground(Graphics g) {
         // 画背景
         g.setColor(new Color(0xDCDCDC));
 
@@ -62,8 +52,7 @@ public class CheckCode extends ActionSupport
 
         // 随机产生 120 个干扰点
 
-        for (int i = 0; i < 120; i++)
-        {
+        for (int i = 0; i < 120; i++) {
             int x = (int) (Math.random() * WIDTH);
 
             int y = (int) (Math.random() * HEIGHT);
@@ -80,8 +69,7 @@ public class CheckCode extends ActionSupport
         }
     }
 
-    private void drawRands(Graphics g, String rands)
-    {
+    private void drawRands(Graphics g, String rands) {
         g.setColor(Color.BLACK);
 
         g.setFont(new Font(null, Font.ITALIC | Font.BOLD, 18));
@@ -101,8 +89,7 @@ public class CheckCode extends ActionSupport
     }
 
 
-    public String createCode() throws Exception
-    {
+    public String createCode() throws Exception {
         HttpServletResponse response = ServletActionContext.getResponse();
 
         // 设置浏览器不要缓存此图片
@@ -136,9 +123,10 @@ public class CheckCode extends ActionSupport
 
         this.setInputStream(input);
 
-        HttpSession session = ServletActionContext.getRequest().getSession();
-
-        session.setAttribute("checkCode", rands);
+//        HttpSession session = ServletActionContext.getRequest().getSession();
+//
+//        session.setAttribute("checkCode", rands);
+        ActionContext.getContext().getSession().put("checkCode", rands);
 
         input.close();
 

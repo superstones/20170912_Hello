@@ -1,6 +1,5 @@
 package Action;
 
-import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -9,11 +8,12 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 
 
-
 public class LoginAction extends ActionSupport {
     private String username;
     private String password;
+
     private String code;
+
     public String getCode() {
         return code;
     }
@@ -21,7 +21,6 @@ public class LoginAction extends ActionSupport {
     public void setCode(String code) {
         this.code = code;
     }
-
 
     public String getUsername() {
         return username;
@@ -39,14 +38,28 @@ public class LoginAction extends ActionSupport {
         this.password = password;
     }
 
+
+    public void validate() {
+        if (username == null || username.trim().equals("")) {
+            this.addFieldError("usernameError", "用户名不能为空");
+        }
+        if (password == null || password.trim().equals("")) {
+            this.addFieldError("passwordError", "密码不能为空");
+
+
+        }
+    }
+
     public String execute() throws Exception {
         //获取登陆页面提交的数据(struct的参数拦截器已经完成)
         //判断登陆数据是否合法
 
-         String Code2= (String) ActionContext.getContext().getSession().get("code");
+        String Code2 = (String) ActionContext.getContext().getSession().get("checkCode");
+        System.out.println("LoginAction.execute code2 is " + Code2);
 
+            System.out.println("code is "+code);
 
-        if (username.equals("石磊") && password.equals("123")&&code.equals("code2")) {
+        if (username.equals("石磊") && password.equals("123") && code.equals(Code2)) {
             //把用户名放入session
             //书71页 struct2中访问session的方法
             ActionContext.getContext().getSession().put("user", username);
