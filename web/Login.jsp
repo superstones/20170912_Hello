@@ -34,12 +34,25 @@
             <td><input type="text" name="code">&nbsp;
                 <img src="code.action" onclick="this.src='code.action'"></td>
         </tr>
+
+        <tr>
+
+            <td>用户类型</td>
+            <td>
+                <select name="type"  >
+                    <option value="管理员" name="管理员">管理员</option>
+                    <option value="普通用户"name="普通用户">普通用户</option>
+                </select>
+
+            </td>
+        </tr>
         <tr align="center">
             <td colspan="3">
                 <button type="submit">登录</button>
                 <button type="reset">重置</button>
 
             </td>
+
         </tr>
     </table>
 </form>

@@ -12,6 +12,15 @@ public class LoginAction extends ActionSupport {
     private String username;
     private String password;
     private String code;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getCode() {
         return code;
@@ -54,13 +63,18 @@ public class LoginAction extends ActionSupport {
         //判断登陆数据是否合法
 
         String Code2 = (String) ActionContext.getContext().getSession().get("checkCode");
+        ActionContext.getContext().getSession().get(type);
+
 
 
         if (username.equals("石磊") && password.equals("123") && code.equals(Code2)) {
             //把用户名放入session
             //书71页 struct2中访问session的方法
             ActionContext.getContext().getSession().put("user", username);
+            ActionContext.getContext().getSession().put("type",type);
             return SUCCESS;
+
+
         } else {
             //错误信息放到request域的方法（struct2访问request的方法）
             ActionContext.getContext().put("error", "用户名或密码或验证码错误");

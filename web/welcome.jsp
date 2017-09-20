@@ -12,7 +12,7 @@
   </head>
   <body>
 
-  欢迎${sessionScope.user}登陆
+  欢迎${sessionScope.type}${sessionScope.user}登陆
 
   </body>
 </html>
